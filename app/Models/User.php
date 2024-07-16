@@ -40,6 +40,10 @@ class User extends Authenticatable
     {
         return $this->demandes()->whereNotIn('status', ['Validé', 'Refusé'])->exists();
     }
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
     
     public function isAdmin(){
         return $this->type === 'administrateur';

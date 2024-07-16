@@ -12,7 +12,7 @@
         </h2>
         <div class="col text-end">
             <button class="btn btn-warning no-break" id="demander-conger">
-                <i class="fa fa-plus me-2"></i> {{__('Demander de Permission')}}
+                <i class="fa fa-plus me-2"></i> {{__(' Demande de Permission')}}
             </button>
         </div>
     </div>
