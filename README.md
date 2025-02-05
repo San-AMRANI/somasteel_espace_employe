@@ -1,12 +1,10 @@
----
-
 # Project Setup
 
 ## Requirements
-- PHP >= 7.3
+- PHP >= 8.0
 - Composer
-- MySQL (or other database of choice)
-- Node.js & NPM (for frontend dependencies)
+- MySQL 
+- Node.js & NPM 
 
 ## Setup Steps
 
@@ -77,6 +75,5 @@
 
    Visit `http://localhost:8000` to see your project in action.
 
----
 
 *Developed by [AMRANI Hassan]*
