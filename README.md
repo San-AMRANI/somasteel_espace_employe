@@ -11,7 +11,7 @@
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/yourusername/your-laravel-project.git
+   git clone https://github.com/San-AMRANI/somasteel_espace_employe.git
    cd your-laravel-project
    ```
 
