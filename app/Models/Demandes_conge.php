@@ -82,7 +82,7 @@ class Demandes_conge extends Model
         $this->where('id','=',$pdfData['dcinfo']->id)->update(['nom_pdf' => $pdfFileName]);
         file_put_contents($pdfPath, $dompdf->output());
         // Provide download link to user
-        // return redirect()->route('demandes.index')->with('succes', 'Demande acceptée et générée avec succès.');
+        // return redirect()->route('demandes.index')->with('success', 'Demande acceptée et générée avec succès.');
         }
 
 

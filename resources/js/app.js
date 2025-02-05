@@ -21,7 +21,7 @@ import '/node_modules/bootstrap/dist/js/bootstrap.bundle.min'
 
 import '/node_modules/datatables.net-dt/js/dataTables.dataTables'
 import '/node_modules/datatables.net/js/dataTables'
-import '/node_modules/file-saver/dist/FileSaver.min.js';
+// import '/node_modules/file-saver/dist/FileSaver.min.js';
 import '/node_modules/xlsx/dist/xlsx.core.min.js';
 
 

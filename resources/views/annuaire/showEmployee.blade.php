@@ -12,13 +12,13 @@
         <div class="card col-lg-6 px-0">
             <div class="card-header">
                 <h2>
-                    <a href="{{ route('annuaire.depart', $employee->service) }}" class="btn btn-sm btn-secondary">
+                    <a href="{{ route('annuaire.depart', [$employee->projet, $employee->service]) }}" class="btn btn-sm btn-secondary">
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                     </a>
                     <u>{{ $employee->nom }} {{ $employee->prénom }}</u>
                 </h2>
             </div>
-            <form action="{{ route('annuaire.employee.update', $employee->id) }}" method="POST">
+            <form action="{{ route('annuaire.employee.update', [$employee->projet, $employee->id]) }}" method="POST">
                 @csrf
                 @method('PUT')
             <div class="card-body pe-4">    
@@ -97,7 +97,8 @@
                         <div class="col-8 p-0 my-0 py-0">
                             {{-- type cases --}}
                             <span class="field-display">
-                                @if ($employee->type =='rh') {{ 'Administrateur' }}
+                                @if ($employee->type =='rh') {{ 'Ressources Humaines' }}
+                                @elseif($employee->type =='administrateur') {{ 'Admin' }}
                                 @elseif($employee->type =='directeur') {{ 'Directeur' }}
                                 @elseif ($employee->type =='responsable') {{ 'Responsable' }}
                                 @else {{ 'Normal' }}
@@ -107,7 +108,8 @@
                                 <option value="ouvrier" @if ($employee->type =='ouvrier') @selected(true) @endif >Normal</option>
                                 <option value="responsable" @if ($employee->type =='responsable') @selected(true) @endif>Responsable</option>
                                 <option value="directeur" @if ($employee->type =='directeur') @selected(true) @endif>Directeur</option>
-                                <option value="rh" @if ($employee->type =='rh') @selected(true) @endif>Administrateur</option>
+                                <option value="rh" @if ($employee->type =='rh') @selected(true) @endif>Ressources Humaines</option>
+                                <option value="administrateur" @if ($employee->type =='administrateur') @selected(true) @endif>Admin</option>
                             </select>
                         </div>
                     </div>

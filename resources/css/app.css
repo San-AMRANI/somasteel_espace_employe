@@ -18,11 +18,15 @@ img.logoicon {
   display: flex !important;
   justify-content: end !important;
 }
+    table.dataTable {
+        width: 100% !important; /* Ensure the table uses the full width of its container */
+    }
 @media (max-width: 992px) {
   #navbarSupportedContent {
     border-top: 0px solid whitesmoke;
   }
 }
+
 @media (min-width: 991.98px) {
   #navbarSupportedContent {
     max-width: fit-content;
@@ -546,6 +550,25 @@ input[type=number]::-webkit-outer-spin-button {
   min-width: 100px !important;
   max-width: 30%;
 }
+
+.projet-icon {
+    transition: transform 0.3s; /* Smooth rotation transition */
+    transform: rotate(-45deg); /* Rotate 90 degrees to the right */
+}
+
+.collapsed .rotate-icon {
+    transform: rotate(-90deg); /* Rotate 90 degrees to the right */
+}
+
+.equipe-icon {
+    transition: transform 0.3s; /* Smooth rotation transition */
+    transform: rotate(-45deg); /* Rotate 90 degrees to the right */
+}
+
+.collapsed .rotate-icon {
+    transform: rotate(-90deg); /* Rotate 90 degrees to the right */
+}
+
 /* .col-lg-3:nth-child(1) > .department-card { background-color: rgba(54, 162, 235, 0.4); }
 .col-lg-3:nth-child(2) > .department-card { background-color: rgba(255, 205, 86, 0.4); }
 .col-lg-3:nth-child(3) > .department-card { background-color: rgba(75, 192, 192, 0.4); }
@@ -701,6 +724,110 @@ footer{
 }
 
 #app{
-  height: 100vh;
+  height: 100dvh;
   background: url(/public/images/bg-fer.png) right bottom no-repeat;
+}
+
+/* team view  */
+button, .fa-gear{
+    transition: 0.6s;
+}
+button:hover .fa-gear{
+  transform: rotate(90deg);
+}
+button:active{
+  scale: 0.9;
+  transition: 0.1s;
+}
+
+/* teame view end */
+
+
+/* DOWNLOAD APP */
+.download-app {
+  --main-focus: #2d8cf0;
+  --font-color: #323232;
+  --bg-color-sub: #ffb937;
+  --bg-color: #eee;
+  --main-color: #645d5d;
+  position: relative;
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 1s !important;
+
+}
+
+.download-app, .download-app__icon, .download-app__text {
+  transition: all 1s !important;
+}
+
+.download-app .button__text {
+  transform: translateX(22px);
+  color: var(--font-color);
+  font-weight: 600;
+  transition: all 0.5s !important;
+
+}
+
+.download-app .button__icon {
+  position: absolute;
+  transform: translateX(109px);
+  height: 100%;
+  width: 39px;
+  background-color: var(--bg-color-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s !important;
+
+}
+
+.download-app .fa {
+  font-size: 18px;
+  color: var(--main-color);
+}
+
+.download-app:hover {
+  background: var(--bg-color);
+  transition: all 1s !important;
+
+}
+
+.download-app:hover .button__text {
+  color: transparent;
+}
+
+.download-app:hover .button__icon {
+  width: 148px;
+  transform: translateX(0);
+}
+
+.download-app:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px var(--main-color);
+}
+/* DOWNLOAD APP END */
+
+#DataTables_Table_0_wrapper{
+  max-width: 100% !important;
+  width: 100% !important;
+  display: inline-block !important;
+}
+.top{
+  width: 100% !important;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+}
+.resp-form{
+  display: inline-block;
+  width: 30% !important;
 }

@@ -24,6 +24,7 @@ class DemandesCongeController extends Controller
     }
 
     public function index(){
+        
         return view('demandes/index');
     }
 
@@ -91,7 +92,7 @@ class DemandesCongeController extends Controller
             }
         }
 
-        return redirect()->route('demandes.index')->with('succes', 'Demande congé créée avec succès'); // Redirecting to demandes.index route
+        return redirect()->route('demandes.index')->with('success', 'Demande congé créée avec succès'); // Redirecting to demandes.index route
     }
 
     public function update($demandeCg_id){
@@ -108,12 +109,12 @@ class DemandesCongeController extends Controller
                 $demandeCgAdeside->update([
                     'approuvé_responsable' => $formDecision->accepted
                 ]);
-                return redirect()->route('demandes.index')->with('succes', 'Demande acceptée avec succés');
+                return redirect()->route('demandes.index')->with('success', 'Demande acceptée avec succés');
             }elseif ($user->isDirecteur()) {
                 $demandeCgAdeside->update([
                     'approuvé_directeur' => $formDecision->accepted
                 ]);
-                return redirect()->route('demandes.index')->with('succes', 'Demande acceptée avec succés');
+                return redirect()->route('demandes.index')->with('success', 'Demande acceptée avec succés');
 
             }elseif($user->isRH() && !$demandeCgAdeside->isAcceptedByRH($demandeCg_id)){ //accepter ssi n'est pas encore
                 $demandeCgAdeside->update([
@@ -160,12 +161,12 @@ class DemandesCongeController extends Controller
                 if ($demandeOwner->email) {
                     Mail::to($demandeOwner->email)->send(new DemandeVliderMail($demandeOwner, $path));
                 }
-                return redirect()->route('demandes.index')->with('succes', 'Demande acceptée et générée avec succès.');
+                return redirect()->route('demandes.index')->with('success', 'Demande acceptée et générée avec succès.');
                 // after validation logic
             }else{
                 return redirect()->route('demandes.index')->with('error', 'ERROR!.');
             }
-            // return redirect()->route('demandes.index')->with('succes', 'Demande acceptée avec succés');
+            // return redirect()->route('demandes.index')->with('success', 'Demande acceptée avec succés');
         }elseif($formDecision->refused) {
             //trouver demande conge concerner
             // $demandeConge = DemandeConge::findOrFail($formDecision->refused);
@@ -180,7 +181,7 @@ class DemandesCongeController extends Controller
             if ($demandeOwner->email) {
                 Mail::to($demandeOwner->email)->send(new DemandeRefusedMail($demandeOwner));
             }
-            return redirect()->route('demandes.index')->with('succes', 'Demande Refusée avec succés');
+            return redirect()->route('demandes.index')->with('success', 'Demande Refusée avec succés');
         }
         // return redirect()->route('demandes.index');
     }

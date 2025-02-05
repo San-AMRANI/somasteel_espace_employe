@@ -13,12 +13,27 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email', 255)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->string('remember_token', 100)->nullable();
             $table->timestamps();
+            $table->string('matricule', 50)->unique();
+            $table->string('nom', 100);
+            $table->string('prénom', 100);
+            $table->string('fonction', 255);
+            $table->string('service', 255);
+            $table->enum('type', ['ouvrier', 'responsable', 'rh', 'directeur', 'administrateur']);
+            $table->Double('solde_conge')->default(0);
+            $table->string('responsable_hiarchique', 255)->nullable();
+            $table->string('directeur', 255)->nullable();
+            $table->string('profile_picture', 255)->nullable();
+            $table->unsignedBigInteger('shift_id')->nullable(); // Ensure this matches the type of `shifts.id`
+            $table->string('projet', 100)->nullable();
+            $table->date('date_entrée')->nullable();
+            $table->string('affectation', 255)->nullable();
+            $table->unsignedBigInteger('equipe_id')->nullable(); // Ensure this matches the type of `equipes.id`
+    
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

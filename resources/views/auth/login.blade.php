@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<div id="background" style="background: linear-gradient(rgba(15,23,43, .7), rgba(15,23,43, .8)), url({{asset('images/somasteel.jpg')}}) center center/cover;">
+<div id="background" class="flex-column" style="background: linear-gradient(rgba(15,23,43, .7), rgba(15,23,43, .8)), url({{asset('images/somasteel.jpg')}}) center center/cover;">
         {{-- <img class="brand" src="../../images/LogoSomasteel.png" alt=""> --}}
     <form method="POST" action="{{ route('login') }}">
         @csrf
@@ -55,6 +55,12 @@
             <button type="submit" class="enter mb-3">{{ __('Entrer')}} </button>
         </div>
     </form>
+    <a href="{{ route('download.app') }}" class="download-app mt-4" download>
+        <span class="button__text">Télécharger</span>
+        <span class="button__icon">
+          <i class="fa fa-download"></i>
+        </span>
+      </a>      
 </div>
 @endsection
     

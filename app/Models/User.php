@@ -28,14 +28,22 @@ class User extends Authenticatable
         'responsable_hiarchique',
         'directeur',
         'email',
+        'equipe_id',
+        'shift_id',
         'password',
     ];
-    
+    public function equipes()
+    {
+        return $this->belongsTo(Equipe::class);
+    }
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class, 'shift_id');
+    }
     public function demandes()
     {
         return $this->hasMany(Demande::class);
     }
-    
     public function hasDemandes()
     {
         return $this->demandes()->whereNotIn('status', ['Validé', 'Refusé'])->exists();
@@ -54,9 +62,9 @@ class User extends Authenticatable
     public function isRH($specificId = null){
         if($specificId !== null){
             $user = User::find($specificId);
-            return $user && $user->type === 'rh';
+            return $user && $user->type === 'rh' || $user->isAdmin();
         } else {
-            return $this->type === 'rh';
+            return $this->type === 'rh' || $this->isAdmin();
         }
     }
 

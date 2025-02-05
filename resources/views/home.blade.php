@@ -118,7 +118,7 @@
                             </div>
                             <div class="mx-1">
                                 <h5 class="" id="service">
-                                    <strong>Solde de Congé: </strong> <span class="no-break"> {{$userInfo->solde_conge}} Jours</span>
+                                    <strong>Solde de Congé: </strong> <span class="no-break"> {{$userInfo->solde_conge ?? "N/A"}} Jours</span>
                                 </h5>
                             </div>
                         </div>

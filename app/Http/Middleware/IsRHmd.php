@@ -17,7 +17,7 @@ class IsRHmd
      */
     public function handle(Request $request, Closure $next): Response
     {
-            if (Auth::user()->isRH()) {
+            if (Auth::user()->isRH() || Auth::user()->isAdmin()) {
                 return $next($request);
             }
             return redirect()->back();

@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('demandes_conge', function (Blueprint $table) {
-            $table->text('Autre')->nullable();
-        });
+        DB::statement("
+            CREATE VIEW directeurs AS
+            SELECT matricule, nom, prénom
+            FROM users
+            WHERE type = 'directeur'
+        ");
     }
 
     /**
      * Reverse the migrations.
      */
-    // public function down(): void
-    // {
-    //     Schema::table('demande_conge', function (Blueprint $table) {
-    //         //
-    //     });
-    // }
+    public function down(): void
+    {
+        Schema::dropIfExists('directeurs_view');
+    }
 };

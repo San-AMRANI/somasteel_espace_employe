@@ -131,4 +131,14 @@ $(document).ready(function(){
         $('#deleteForm').attr('action', '/Annuaire/delete/' + employeeId);
     });
 
+    $('.employee-table').DataTable({
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/French.json",
+        },
+        dom: '<"top"fi>',
+        paging: false,        // Enable pagination
+        searching: true,     // Enable search/filter functionality
+        ordering: true,      // Enable sorting
+    });
+
 });

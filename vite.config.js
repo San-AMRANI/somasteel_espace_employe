@@ -21,5 +21,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    // server: {
+    //     host: '192.168.2.41', // or a specific IP, like 'localhost'
+    //     port: 81,      // replace with your desired port number
+    // },
+    
 });
 

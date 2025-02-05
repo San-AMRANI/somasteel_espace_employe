@@ -43,7 +43,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return redirect()->intended('dashboard')->with('succes', 'Vous êtes connecté avec succès.');
+            return redirect()->intended('dashboard')->with('success', 'Vous êtes connecté avec succès.');
         }
 
         return back()->withErrors(['matricule' => 'Matricule ou Mot the pass incorrect!']);

@@ -13,19 +13,31 @@
 </style>
 <div class="container mt-4">
     <div class="row my-3">
-        <h2 class="col">
+        <h3 class="col-lg-8 col-md-8 col-sm-12">
             <a href="{{ route('annuaire.index') }}" class="nav-link d-inline">
                 <button class="btn btn-sm btn-secondary me-2"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
             </a>
-                <b class="border-bottom border-black border-2 no-break"><em>{{__('Annuaire Employés - ' . $depart)}}</em></b>
-        </h2>
-        <div class="col">
+                <b class="border-bottom border-black border-2"><em> <span class="no-break">{{__('Annuaire Employés')}}</span> {{__(' - ' . $projet . ' - ' . $depart)}}</em></b>
+        </h3>
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <button class="btn btn-sm btn-warning no-break d-inline float-end" data-bs-toggle="modal" data-bs-target="#createEmployeeModal">
                 <i class="fa fa-plus me-2"></i> {{__('Crée nouveau compte')}}
             </button>
         </div>
     </div>
+    
+    
     <div class="table-responsive">
+        {{-- <div class=" resp-form">
+            <form action="{{ route('department.updateResponsible', 3) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="input-group input-group-sm">
+                    <input type="text" name="responsible" class="form-control" placeholder="{{ __('Nom du responsable') }}" value="">
+                    <button class="btn btn-warning" type="submit">{{ __('Définir responsable') }}</button>
+                </div>
+            </form>
+        </div> --}}
         <table class="table table-striped employee-table">
             <thead>
                 <tr>
@@ -54,13 +66,28 @@
                         <td class="no-break">{{ $employee->fonction }}</td>
                         <td class="no-break">
                             <div class="btn-group">
+                                {{-- @dd($employee->projet) --}}
                                 <a href="{{ route('annuaire.employee', [
+                                                    'projet'=> $employee->projet,
                                                     'depart' => $employee->depart,
                                                     'employee_nom' => $employee->nom,
                                                     'employee_id' => $employee->id
                                     ])  }}" class="btn btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <form action="{{ route('annuaire.employee.setResponsable', [
+                                    'id' => $employee->id,
+                                    'depart' => $employee->depart,
+                                    'projet' => $employee->projet
+                                ]) }}" method="POST" style="display:inline;">
+                                    @method('PUT')
+                                    @csrf
+                                    <button type="submit" class="btn @if($employee->type == 'responsable') btn-primary @else btn-warning @endif">
+                                        <i class="fa-solid fa-registered"></i>
+                                    </button>
+                                </form>
+                                
 
                                 <a href="{{ route('annuaire.employee', [
+                                                    'projet'=> $employee->projet,
                                                     'depart' => $employee->depart,
                                                     'employee_nom' => $employee->nom,
                                                     'employee_id' => $employee->id
@@ -111,7 +138,7 @@
                     <h5 class="modal-title" id="createEmployeeModalLabel">Ajouter un nouvel employé</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="createEmployeeForm" action="{{ route('annuaire.employee.register', $depart) }}" method="POST" novalidate>
+                <form id="createEmployeeForm" action="{{ route('annuaire.employee.register', [$projet, $depart]) }}" method="POST" novalidate>
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -150,10 +177,11 @@
                                         <option value="ouvrier">Normal</option>
                                         <option value="responsable">Responsable</option>
                                         <option value="directeur">Directeur</option>
-                                        <option value="rh">Administrateur</option>
+                                        <option value="rh">Ressources Humaines</option>
+                                        <option value="administrateur">Admin</option>
                                     </select>
                                     <label for="type">Type</label>
-                                    <div class="invalid-feedback">Type est requis (Normal, Responsable, Directeur, Administrateur).</div>
+                                    <div class="invalid-feedback">Type est requis (Normal, Responsable, Directeur, Ressources Humaines).</div>
                                 </div>
                             </div>
                         </div>
@@ -164,6 +192,7 @@
                                     <label for="fonction">Fonction</label>
                                 </div>
                                 <input type="text" class="form-control" hidden id="service" name="service" placeholder="Service" value="{{ $depart }}">
+                                <input type="text" class="form-control" hidden id="projet" name="projet" placeholder="Projet" value="{{ $projet }}">
                             </div>
                             <div class="col">
                                 <div class="mb-3 form-floating">

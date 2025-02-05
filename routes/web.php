@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfilController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -16,6 +17,9 @@ use App\Http\Controllers\AnnuaireController;
 use App\Http\Controllers\AbsenceController;
 use App\Http\Controllers\AttendanceController;
 
+use Illuminate\Support\Facades\DB;
+
+
 
 
 
@@ -26,11 +30,6 @@ use App\Http\Controllers\AttendanceController;
 //somasteel Blog
 
 // Route::get('/SomaProduit', [BlogeController::class, 'produitIndex'])->name('bloge.produit');
-
-
-
-
-
 
 Route::middleware('auth')->group(function () {
     Route::put('/home/updateEmail', [HomeController::class, 'updateEmail'])->name('home.update');
@@ -54,20 +53,32 @@ Route::middleware('auth')->group(function () {
     Route::middleware(IsRhOrResp::class)->group(function () {
         Route::get('/AbsDeclaration', [AttendanceController::class, 'index'])->name('absenceDec.index');
         Route::post('/AbsDeclaration/store', [AttendanceController::class, 'store'])->name('absenceDec.store');
+        Route::post('/update-shift', [AttendanceController::class, 'updateShift'])->name('updateShift');
+        Route::post('/attendance/declare', [AttendanceController::class, 'declareAttendance'])->name('attendance.declare');
+
+        Route::put('/manage-teams/{id}', [AttendanceController::class, 'updateEquipe'])->name('teams.update');
+        Route::post('/create-team', [AttendanceController::class, 'createEquipe']);
+        Route::delete('/delete-team/{id}', [AttendanceController::class, 'deleteEquipe']);
+        
+        Route::get('/download-planning', [AttendanceController::class, 'downloadPlanning'])->name('download-planning');
+        
+        Route::get('/export', [AttendanceController::class, 'export'])->name('export.shifts');
+
 
     });
     Route::middleware(IsRHmd::class)->group(function () {
         Route::get('/Annuaire', [AnnuaireController::class, 'index'])->name('annuaire.index');//done
-        Route::get('/Annuaire/{depart}', [AnnuaireController::class, 'showDepartment'])->name('annuaire.depart');//done
-        Route::get('/Annuaire/{depart}/{employee_nom}/{employee_id}', [AnnuaireController::class,'showEmployee'])->name('annuaire.employee');//done
-        Route::post('/Annuaire/create-department', [AnnuaireController::class,'storeDepart'])->name('annuaire.depart.store');
+        Route::get('/Annuaire/{projet}/{depart}', [AnnuaireController::class, 'showDepartment'])->name('annuaire.depart');//done
+        Route::get('/Annuaire/{projet}/{depart}/{employee_nom}/{employee_id}', [AnnuaireController::class,'showEmployee'])->name('annuaire.employee');//done
+        Route::post('/Annuaire/create-department', [AnnuaireController::class,'storeService'])->name('annuaire.depart.store');
+        Route::delete('/Annuaire/delete-department', [AnnuaireController::class,'deleteService'])->name('annuaire.depart.delete');
+        
         // Route::get('/Annuaire/{depart}/{employee_nom}_{employee_id}/edit', [AnnuaireController::class, 'editEmp'])->name('annuaire.editEmployee');
-        Route::put('/Annuaire/update/{employee_id}', [AnnuaireController::class, 'updateEmp'])->name('annuaire.employee.update');
+        Route::put('/Annuaire/update/{projet}/{employee_id}', [AnnuaireController::class, 'updateEmp'])->name('annuaire.employee.update');
         Route::put('/Annuaire/updatePass/{employee_id}', [AnnuaireController::class, 'changePassword'])->name('annuaire.employee.changePassword');
         Route::delete('/Annuaire/delete/{employee_id}', [AnnuaireController::class, 'destroyEmp'])->name('annuaire.employee.destroy');
-        Route::post('/Annuaire/{depart}/register', [AnnuaireController::class, 'storeEmployee'])->name('annuaire.employee.register');
-        
-        
+        Route::post('/Annuaire/{projet}/{depart}/register', [AnnuaireController::class, 'storeEmployee'])->name('annuaire.employee.register');
+        Route::put('/setResponsable/{id}/{depart}/{projet}', [AnnuaireController::class, 'updateResponsible'])->name('annuaire.employee.setResponsable');
         //password
         //Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
         //Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -75,6 +86,7 @@ Route::middleware('auth')->group(function () {
         //Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
     });
 });
+Route::get('/download-app', [HomeController::class, 'getApp'])->name('download.app');
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -90,3 +102,4 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
+Route::get('/updateSolde', [ProfilController::class, 'updateSolde']);

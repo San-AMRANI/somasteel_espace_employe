@@ -1,15 +1,5 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
-
-class ProfilController extends Controller
-{
-   public function updateSolde(){
-
 $soldes = [
 '1' => 58.5 ,
 '2' => 54 ,
@@ -276,25 +266,7 @@ $soldes = [
 '1065' => 1.5 
 ];
 
-      $cpt = 0;
-      foreach ($soldes as $matricule => $solde) {
-         // Retrieve the first user with the given matricule
-         $user = User::where('matricule', $matricule)->first();
 
-         if ($user) {
-            // Update the solde_conge attribute
-            $user->solde_conge = $solde;
-            // Save the user
-            $user->save();
-            $cpt++;
-         } else {
-            // Handle the case where the user is not found (optional)
-            // For example, log a warning or throw an exception
-            \Log::warning("User with matricule {$matricule} not found.");
-         }
-            return ($cpt . " User been updated.");
-      }
-
-   }
-
+foreach ($soldes as $matricule => $solde) {
+   
 }

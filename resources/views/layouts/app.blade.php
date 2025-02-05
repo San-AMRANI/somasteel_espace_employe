@@ -5,12 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     {{-- No cache --}}
-    {{-- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
---}}
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -118,11 +117,11 @@
                             {{__('Demandes Congé')}}
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link text-center"  href="{{ route('absence.index') }}" role="button">
                             {{__('Permission d\'absence')}}
                         </a>
-                    </li>
+                    </li> --}}
                     @if (Auth::user()->isRH() || Auth::user()->isResponsable())
                         <li class="nav-item">
                             <a class="nav-link text-center"  href="{{route('absenceDec.index')}}" role="button">
@@ -174,8 +173,8 @@
         <div id="dynamicSuccessAlert" class="alert alert-SE alert-success" role="alert" style="display: none;">
             <i class="fas fa-check-to-slot me-2"></i>
             <span id="successMessage">
-                @if (session('succes'))
-                {{__(session('succes'))}}
+                @if (session('success'))
+                {{__(session('success'))}}
                 @endif
             </span>
         </div>

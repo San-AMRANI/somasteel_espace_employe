@@ -11,13 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('demandes', function (Blueprint $table) {
-            $table->text('raison_refus')->nullabble();
-        });
+        DB::statement("
+            CREATE VIEW responsables AS
+            SELECT matricule, nom, prénom
+            FROM users
+            WHERE type = 'responsable'
+        ");
     }
 
     /**
      * Reverse the migrations.
      */
-    
+    public function down(): void
+    {
+        Schema::dropIfExists('responsables_view');
+    }
 };

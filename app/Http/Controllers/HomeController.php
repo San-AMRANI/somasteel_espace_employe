@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth; // Import the Auth facade
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 
 use Illuminate\Validation\ValidationException;
@@ -77,7 +80,7 @@ class HomeController extends Controller
                 'email'=> $userForm->email,
             ]);
             // session()->flash('success','Email enregistré avec succès.');
-            return redirect()->route('home')->with('succes', 'Email enregistré avec succès.');
+            return redirect()->route('home')->with('success', 'Email enregistré avec succès.');
         }catch (Exception $e) {
             // session()->put('error', $e->getMessage() . 'Verifier votre email que vous avais saisis.');
             return redirect()->route('home')->with('error', 'Veuillez entrer une adresse email valide et non déjà utilisé.');
@@ -105,7 +108,7 @@ class HomeController extends Controller
                 $user->profile_picture = $filename;
                 $user->save();
             }
-            return redirect()->back()->with('succes', 'Photo de profil modifiée avec succès.');
+            return redirect()->back()->with('success', 'Photo de profil modifiée avec succès.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Image incompatible (max taille 2Mo, format: jpeg, png, jpg)');
         }
@@ -114,7 +117,7 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         if ($user->deleteProfilePicture()) {
-            return redirect()->back()->with('succes', 'Photo profile supprimée avec succès.');
+            return redirect()->back()->with('success', 'Photo profile supprimée avec succès.');
         } else {
             return redirect()->back()->with('error', 'Impossible de supprimer la photo de profil.');
         }
@@ -135,5 +138,16 @@ class HomeController extends Controller
 
         return $response;
     }
-
+    public function getApp() {
+        // Log the route access
+        Log::info('Download app route accessed', [
+            'user_id' => auth()->id(), // Log the user ID if authenticated
+            'ip_address' => request()->ip(), // Log the IP address of the user
+            'timestamp' => now()->toDateTimeString() // Log the timestamp
+        ]);
+        Session::flash('success', 'App download started successfully.');
+    
+        // Return the file download
+        return Storage::disk('public')->download('somasteel_android_app.apk');
+    }
 }
