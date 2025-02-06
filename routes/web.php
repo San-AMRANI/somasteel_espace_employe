@@ -15,7 +15,7 @@ use App\Http\Controllers\DemandesController;
 use App\Http\Controllers\DemandesCongeController;
 use App\Http\Controllers\AnnuaireController;
 use App\Http\Controllers\AbsenceController;
-use App\Http\Controllers\AttendanceController;
+
 
 use Illuminate\Support\Facades\DB;
 
@@ -44,28 +44,27 @@ Route::middleware('auth')->group(function () {
     Route::put('/demandes/{demande_id}/decide', [DemandesCongeController::class, 'update'])->name('demandeconge.update');
     Route::get('/demandes/download/{dc_id}', [DemandesCongeController::class, 'downloadConge'])->name('demandeConge.downloadConge');
 
-    //Absence
-    Route::get('/Permissions_Absence', [AbsenceController::class, 'index'])->name('absence.index');
-
-
-
-    //Annuaire routes
+    
+    
+    
     Route::middleware(IsRhOrResp::class)->group(function () {
-        Route::get('/AbsDeclaration', [AttendanceController::class, 'index'])->name('absenceDec.index');
-        Route::post('/AbsDeclaration/store', [AttendanceController::class, 'store'])->name('absenceDec.store');
-        Route::post('/update-shift', [AttendanceController::class, 'updateShift'])->name('updateShift');
-        Route::post('/attendance/declare', [AttendanceController::class, 'declareAttendance'])->name('attendance.declare');
+        //Absence
+        Route::get('/AbsDeclaration', [AbsenceController::class, 'index'])->name('absenceDec.index');
+        Route::post('/AbsDeclaration/store', [AbsenceController::class, 'store'])->name('absenceDec.store');
+        Route::post('/update-shift', [AbsenceController::class, 'updateShift'])->name('updateShift');
+        Route::post('/attendance/declare', [AbsenceController::class, 'declareAttendance'])->name('attendance.declare');
 
-        Route::put('/manage-teams/{id}', [AttendanceController::class, 'updateEquipe'])->name('teams.update');
-        Route::post('/create-team', [AttendanceController::class, 'createEquipe']);
-        Route::delete('/delete-team/{id}', [AttendanceController::class, 'deleteEquipe']);
+        Route::put('/manage-teams/{id}', [AbsenceController::class, 'updateEquipe'])->name('teams.update');
+        Route::post('/create-team', [AbsenceController::class, 'createEquipe']);
+        Route::delete('/delete-team/{id}', [AbsenceController::class, 'deleteEquipe']);
         
-        Route::get('/download-planning', [AttendanceController::class, 'downloadPlanning'])->name('download-planning');
+        Route::get('/download-planning', [AbsenceController::class, 'downloadPlanning'])->name('download-planning');
         
-        Route::get('/export', [AttendanceController::class, 'export'])->name('export.shifts');
+        Route::get('/export', [AbsenceController::class, 'export'])->name('export.shifts');
 
 
     });
+    //Annuaire routes
     Route::middleware(IsRHmd::class)->group(function () {
         Route::get('/Annuaire', [AnnuaireController::class, 'index'])->name('annuaire.index');//done
         Route::get('/Annuaire/{projet}/{depart}', [AnnuaireController::class, 'showDepartment'])->name('annuaire.depart');//done

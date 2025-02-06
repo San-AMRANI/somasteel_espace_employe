@@ -201,7 +201,7 @@ class AnnuaireController extends Controller
                 'nom' => 'required|string|max:100',
                 'prénom' => 'required|string|max:100',
                 'email' => 'nullable|email|max:255',
-                'matricule' => 'required|integer',
+                'matricule' => 'required|string|max:50',
                 'fonction' => 'required|string|max:255',
                 'service' => 'required|string|max:255',
                 'type' => 'required|string|max:255',

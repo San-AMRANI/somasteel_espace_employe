@@ -1,54 +1,37 @@
-
-$(document).ready(function () {
+$(document).ready(function() {
    $('table.shift-table').DataTable({
       "language": {
-         "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/French.json",
-         // "info": ""  // Remove the info text
+          "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/French.json"
       },
       searching: true,
-      paging:false,
-      responsive : true
-   });
-
-   // $('#shift-table-result').DataTable({
-   //    "language": {
-   //       "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/French.json",
-   //    },
-   //    searching: true,
-   //    paging: false,
-   //    dom: '<"top"fi>'
-   // });
-   function filterTable() {
-      var serviceFilter = $('#service-filter').val().toLowerCase();
-      var presenceFilter = $('#presence-filter').val().toLowerCase();
-
-      // Iterate over each table row
-      $('#shift-table-result tbody tr').each(function () {
-         var row = $(this);
-         var service = row.find('td').eq(2).text().toLowerCase(); // Service column
-         var presence = row.find('td').eq(3).text().trim().toLowerCase(); // Présence column
-
-         // Check if the row matches all the filters
-         var isServiceMatch = serviceFilter === "" || service.indexOf(serviceFilter) !== -1;
-         var isPresenceMatch = presenceFilter === "" || presence.indexOf(presenceFilter) !== -1;
-
-         // Show or hide the row based on filter matches
-         if (isServiceMatch && isPresenceMatch) {
-            row.show();
-         } else {
-            row.hide();
-         }
+      paging: false,
+      responsive: true,
+      dom: '<"top"f<i>>rt<"bottom"lp><"clear">' // Moves search input and info text to the top
+  });
+  
+   function filterTable(tableId) {
+      var serviceFilter = $('#service-filter-' + tableId).val().toLowerCase();
+      var presenceFilter = $('#presence-filter-' + tableId).val().toLowerCase();
+  
+      $('#shift-table-' + tableId + ' tbody tr').each(function () {  // Fixed table ID selector
+          var row = $(this);
+          var service = row.find('td').eq(2).text().toLowerCase(); // Service column
+          var presence = row.find('td').eq(3).text().trim().toLowerCase(); // Présence column
+  
+          var isServiceMatch = serviceFilter === "" || service.indexOf(serviceFilter) !== -1;
+          var isPresenceMatch = presenceFilter === "" || presence.indexOf(presenceFilter) !== -1;
+  
+          row.toggle(isServiceMatch && isPresenceMatch);
       });
-   }
-
-   // Event listeners for select elements
-   $('#service-filter, #presence-filter').on('change', function () {
-      filterTable();
-   });
-
-   // Trigger initial filtering to ensure all data is displayed on load
-   filterTable();
+  }
+  
+  $('.service-filter, .presence-filter').on('change', function () {
+   var tableId = $(this).data('table'); // Get correct table ID
+   filterTable(tableId); // Pass the correct table ID
 });
+
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
    document.querySelectorAll('.btn-status').forEach(button => {
@@ -116,65 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
    setInterval(updateClock, 1000);
    updateClock(); // Initial call to display the clock immediately
 
-   // const navLinks = document.querySelectorAll('.shift.nav-link');
-   // const cardBodies = document.querySelectorAll('.shift-card-body');
-
-   // // Function to set the active card
-   // function setActiveCard(shiftId) {
-   //    // Hide all card bodies
-   //    cardBodies.forEach(body => body.classList.add('d-none'));
-
-   //    // Show the selected card body
-   //    const activeCardBody = document.getElementById(`shift-card-body-${shiftId}`);
-   //    if (activeCardBody) {
-   //       activeCardBody.classList.remove('d-none');
-   //    }
-   // }
-
-   // Set up event listeners for nav links
-   navLinks.forEach(link => {
-      link.addEventListener('click', function (event) {
-         event.preventDefault();
-
-         // Remove 'active' class from all nav links
-         navLinks.forEach(link => link.classList.remove('active'));
-
-         // Add 'active' class to the clicked nav link
-         this.classList.add('active');
-
-         // Get shift ID from the data attribute
-         const shiftId = this.dataset.shiftId;
-
-         // Store the selected shift ID in localStorage
-         localStorage.setItem('lastSelectedShift', shiftId);
-
-         // Display the corresponding card
-         setActiveCard(shiftId);
-      });
-   });
-
-   // Retrieve the last selected shift ID from localStorage
-   const lastSelectedShift = localStorage.getItem('lastSelectedShift');
-
-   if (lastSelectedShift) {
-      // Make the corresponding card visible
-      setActiveCard(lastSelectedShift);
-
-      // Set the 'active' class on the corresponding nav link
-      const activeNavLink = document.querySelector(`.shift.nav-link[data-shift-id="${lastSelectedShift}"]`);
-      if (activeNavLink) {
-         activeNavLink.classList.add('active');
-      }
-   } else {
-      // Default behavior if no shift was previously selected
-      if (navLinks.length > 0) {
-         // Optionally, you can set the first shift as default
-         const defaultShiftId = navLinks[0].dataset.shiftId;
-         setActiveCard(defaultShiftId);
-         navLinks[0].classList.add('active');
-      }
-   }
-
    const attendanceButtons = document.querySelectorAll('.btn-status');
    attendanceButtons.forEach(button => {
       button.addEventListener('click', function () {
@@ -200,4 +124,32 @@ document.addEventListener('DOMContentLoaded', function () {
       });
    });
    
+
+   // card navs
+   document.querySelectorAll(".shift").forEach((tab) => {
+      tab.addEventListener("click", function (event) {
+          event.preventDefault();
+  
+          let shiftId = this.getAttribute("data-shift-id");
+          let shiftBody = document.getElementById(shiftId);
+  
+          if (!shiftBody) {
+              console.error(`Element with ID '${shiftId}' not found.`);
+              return; // Exit function if element is not found
+          }
+  
+          document.querySelectorAll(".shift-card-body").forEach((body) => {
+              body.classList.add("d-none"); // Hide all shift tables
+          });
+  
+          shiftBody.classList.remove("d-none"); // Show selected shift table
+  
+          document.querySelectorAll(".shift").forEach((link) => {
+              link.classList.remove("active");
+          });
+  
+          this.classList.add("active");
+      });
+  });
+  
 });
