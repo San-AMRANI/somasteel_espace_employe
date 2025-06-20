@@ -23,6 +23,7 @@ class User extends Authenticatable
         'matricule',
         'fonction',
         'service',
+        'projet',
         'type',
         'solde_conge',
         'responsable_hiarchique',
@@ -93,6 +94,38 @@ class User extends Authenticatable
         } else {
             return $this->type === 'ouvrier';
         }
+    }
+
+    public function isMagasinier()
+    {
+        return $this->type === 'magasinier';
+    }
+
+    public function isDirector()
+    {
+        return $this->type === 'directeur';
+    }
+
+    public function isPurchase()
+    {
+        return strtolower($this->service) === 'achat';
+    }
+
+    public function isComptable()
+    {
+        return strtolower($this->service) === 'comptabilite';
+    }
+
+
+    // Relations
+    public function purchaseRequests()
+    {
+        return $this->hasMany(PurchaseRequest::class);
+    }
+
+    public function validatedRequests()
+    {
+        return $this->hasMany(PurchaseRequest::class, 'validator_id');
     }
 
     public function deleteProfilePicture()
